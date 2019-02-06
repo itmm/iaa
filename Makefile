@@ -9,7 +9,10 @@ EXE := iaa
 
 test: $(EXE)
 	@echo "  running $(EXE)"
+	@rm -f a.out
 	@./$(EXE)
+	@./a.out >got.txt
+	@diff expected.txt got.txt
 
 $(SRCs): $(Xs)
 	@echo "  HX"
@@ -17,7 +20,7 @@ $(SRCs): $(Xs)
 
 $(EXE): $(SRCs)
 	@echo "  CXX $@"
-	@$(CXX) $(CXXFLAGS) -o $@ $^
+	@$(CXX) $(CXXFLAGS) -o $@ $^ -lstdc++fs
 
 clean:
 	@echo "  RM generated files"
