@@ -1,33 +1,79 @@
 # Instant ARM Assembly
+* Ein Assembler mit benutzerfreundlicher Syntax
+* Entwickelt mit `hex` in C++
 
 ```
 D{file: iaa.cpp}
-	e{includes}
-	e{globals}
-	e{main}
+	e{parts}
 x{file: iaa.cpp}
 ```
+* Die C++ Datei besteht aus mehreren Teilen
+
+```
+d{parts}
+	e{includes}
+x{parts}
+```
+* Zuerst bindet das Programm die Header ein
+
+```
+a{parts}
+	e{globals}
+x{parts}
+```
+* Dann definiert es globale Elemente
+
+```
+a{parts}
+	e{main}
+x{parts}
+```
+* Und zum Schluss kommt das Haupt-Programm
 
 ```
 d{main}
 	int main(
 		int argc, const char* argv[]
 	) {
-		e{process args};
-		e{assemble};
-		e{create binary};
+		e{main parts};
 	}
 x{main}
 ```
+* Das Hauptprogramm ist ebenfalls in mehrere Teile aufgeteilt
+
+```
+d{main parts}
+	e{process args};
+x{main parts};
+```
+* Zuerst werden die Argumente der Kommandozeile ausgewertet
+
+```
+a{main parts}
+	e{assemble};
+x{main parts};
+```
+* Dann wird der Maschinen-Code aus den Sourcen erzeugt
+
+```
+a{main parts}
+	e{create binary};
+x{main parts};
+```
+* Und das fertige Executable erstellt
+
+# Ein Fake-Executable erstellen
+* Die allererste Implementierung generiert nur ein statisches Executable
+* Das ist noch kein Assembler
+* aber ein guter Ausgangspunkt, um die Test-Umgebung aufzusetzen
 
 ```
 d{includes}
 	#include <fstream>
-	#include <experimental/filesystem>
-	namespace fs =
-		std::experimental::filesystem;
 x{includes}
 ```
+* Mit der C++ Standard-Bibliothek erstellt der Assembler das Executable
+* Er bindet dazu den notwendigen Header ein
 
 ```
 d{create binary} {
@@ -37,6 +83,22 @@ d{create binary} {
 	e{set permissions};
 } x{create binary}
 ```
+* Zuerst ist sogar der Name des Executables vorgegeben
+* Wie beim C-Compiler wird es `a.out` genannt
+* Nach dem Schreiben des Executables müssen dessen Zugriffsrechte
+  erweitert werden
+* damit das System die Datei ausführen kann
+
+```
+a{includes}
+	#include <experimental/filesystem>
+	namespace fs =
+		std::experimental::filesystem;
+x{includes}
+```
+* Der Assembler ändert über die C++ Standard-Bibliothek die Rechte
+* Leider ist dieser Teil noch als experimentell eingestuft
+* Der Source-Code verwendet lange Namespace-Namen
 
 ```
 d{set permissions}
@@ -46,6 +108,8 @@ d{set permissions}
 	);
 x{set permissions}
 ```
+* Der Assembler fügt das Ausführungs-Recht zu den bestehenden Rechten
+  hinzu
 
 ```
 d{write binary} {
@@ -54,6 +118,8 @@ d{write binary} {
 	out.write(binary, sizeof(binary) - 1);
 } x{write binary}
 ```
+* Die Datei besteht aus einem unübersichtlichen Hex-Dump
+* Der Assembler hat die Aufgabe, diese Datei dynamisch zu erzeugen
 
 ```
 d{binary data}
@@ -71,6 +137,7 @@ d{binary data}
 	"\x74\x00\x00\x00\x74\x00\x01\x00"
 x{binary data}
 ```
+* Teil 1
 
 ```
 a{binary data}
@@ -88,6 +155,7 @@ a{binary data}
 	"\x48\x61\x6c\x6c\x6f\x20\x57\x65"
 x{binary data}
 ```
+* Teil 2
 
 ```
 a{binary data}
@@ -105,6 +173,7 @@ a{binary data}
 	"\x00\x00\x00\x00\x03\x00\x03\x00"
 x{binary data}
 ```
+* Teil 3
 
 ```
 a{binary data}
@@ -122,6 +191,7 @@ a{binary data}
 	"\x00\x00\x00\x00\x00\x00\xf1\xff"
 x{binary data}
 ```
+* Teil 4
 
 ```
 a{binary data}
@@ -139,6 +209,7 @@ a{binary data}
 	"\x00\x00\x00\x00\x00\x00\x02\x00"
 x{binary data}
 ```
+* Teil 5
 
 ```
 a{binary data}
@@ -156,6 +227,7 @@ a{binary data}
 	"\x00\x00\x00\x00\x10\x00\x02\x00"
 x{binary data}
 ```
+* Teil 6
 
 ```
 a{binary data}
@@ -173,6 +245,7 @@ a{binary data}
 	"\x69\x6e\x00\x24\x61\x00\x6d\x73"
 x{binary data}
 ```
+* Teil 7
 
 ```
 a{binary data}
@@ -190,6 +263,7 @@ a{binary data}
 	"\x2e\x73\x68\x73\x74\x72\x74\x61"
 x{binary data}
 ```
+* Teil 8
 
 ```
 a{binary data}
@@ -207,6 +281,7 @@ a{binary data}
 	"\x07\x00\x00\x00\x02\x00\x00\x00"
 x{binary data}
 ```
+* Teil 9
 
 ```
 a{binary data}
@@ -224,6 +299,7 @@ a{binary data}
 	"\x1b\x00\x00\x00\x00\x00\x00\x00"
 x{binary data}
 ```
+* Teil 10
 
 ```
 a{binary data}
@@ -241,6 +317,7 @@ a{binary data}
 	"\x00\x00\x00\x00\x11\x00\x00\x00"
 x{binary data}
 ```
+* Teil 11
 
 ```
 a{binary data}
@@ -251,19 +328,26 @@ a{binary data}
 	"\x00\x00\x00\x00"
 x{binary data}
 ```
+* Teil 12
+
+# Platzhalter
+* Noch leere Implementierung, um Warnungen zu verhindern
 
 ```
 d{globals}
 x{globals}
 ```
+* Noch leere Implementierung, um Warnungen zu verhindern
 
 ```
 d{process args}
 x{process args}
 ```
+* Noch leere Implementierung, um Warnungen zu verhindern
 
 ```
 d{assemble}
 x{assemble}
 ```
+* Noch leere Implementierung, um Warnungen zu verhindern
 

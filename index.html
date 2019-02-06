@@ -11,26 +11,76 @@
 <h1>Instant ARM Assembly</h1>
 </div>
 
+<ul><li>
+ Ein Assembler mit benutzerfreundlicher Syntax
+</li><li>
+ Entwickelt mit <code>hex</code> in C++
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
 <span class="macro">@globdef(<span class="name">file: iaa.cpp</span>)</span><br/>
 
-<span class="in1"></span><span class="macro">@expand(<span class="name">includes</span>)</span><br/>
-
-<span class="in1"></span><span class="macro">@expand(<span class="name">globals</span>)</span><br/>
-
-<span class="in1"></span><span class="macro">@expand(<span class="name">main</span>)</span><br/>
+<span class="in1"></span><span class="macro">@expand(<span class="name">parts</span>)</span><br/>
 
 <span class="macro">@end(<span class="name">file: iaa.cpp</span>)</span><br/>
 
 </code>
 </div>
 
+<ul><li>
+ Die C++ Datei besteht aus mehreren Teilen
+</li></ul></div>
 
+<div><div>
+<code>
+
+<span class="macro">@def(<span class="name">parts</span>)</span><br/>
+
+<span class="in1"></span><span class="macro">@expand(<span class="name">includes</span>)</span><br/>
+
+<span class="macro">@end(<span class="name">parts</span>)</span><br/>
+
+</code>
 </div>
+
+<ul><li>
+ Zuerst bindet das Programm die Header ein
+</li></ul></div>
+
+<div><div>
+<code>
+
+<span class="macro">@add(<span class="name">parts</span>)</span><br/>
+
+<span class="in1"></span><span class="macro">@expand(<span class="name">globals</span>)</span><br/>
+
+<span class="macro">@end(<span class="name">parts</span>)</span><br/>
+
+</code>
+</div>
+
+<ul><li>
+ Dann definiert es globale Elemente
+</li></ul></div>
+
+<div><div>
+<code>
+
+<span class="macro">@add(<span class="name">parts</span>)</span><br/>
+
+<span class="in1"></span><span class="macro">@expand(<span class="name">main</span>)</span><br/>
+
+<span class="macro">@end(<span class="name">parts</span>)</span><br/>
+
+</code>
+</div>
+
+<ul><li>
+ Und zum Schluss kommt das Haupt-Programm
+</li></ul></div>
+
 <div><div>
 <code>
 
@@ -42,11 +92,7 @@
 
 <span class="in1"></span>) {<br/>
 
-<span class="in2"></span><span class="macro">@expand(<span class="name">process args</span>)</span>;<br/>
-
-<span class="in2"></span><span class="macro">@expand(<span class="name">assemble</span>)</span>;<br/>
-
-<span class="in2"></span><span class="macro">@expand(<span class="name">create binary</span>)</span>;<br/>
+<span class="in2"></span><span class="macro">@expand(<span class="name">main parts</span>)</span>;<br/>
 
 <span class="in1"></span>}<br/>
 
@@ -55,8 +101,73 @@
 </code>
 </div>
 
+<ul><li>
+ Das Hauptprogramm ist ebenfalls in mehrere Teile aufgeteilt
+</li></ul></div>
+
+<div><div>
+<code>
+
+<span class="macro">@def(<span class="name">main parts</span>)</span><br/>
+
+<span class="in1"></span><span class="macro">@expand(<span class="name">process args</span>)</span>;<br/>
+
+<span class="macro">@end(<span class="name">main parts</span>)</span>;<br/>
+
+</code>
+</div>
+
+<ul><li>
+ Zuerst werden die Argumente der Kommandozeile ausgewertet
+</li></ul></div>
+
+<div><div>
+<code>
+
+<span class="macro">@add(<span class="name">main parts</span>)</span><br/>
+
+<span class="in1"></span><span class="macro">@expand(<span class="name">assemble</span>)</span>;<br/>
+
+<span class="macro">@end(<span class="name">main parts</span>)</span>;<br/>
+
+</code>
+</div>
+
+<ul><li>
+ Dann wird der Maschinen-Code aus den Sourcen erzeugt
+</li></ul></div>
+
+<div><div>
+<code>
+
+<span class="macro">@add(<span class="name">main parts</span>)</span><br/>
+
+<span class="in1"></span><span class="macro">@expand(<span class="name">create binary</span>)</span>;<br/>
+
+<span class="macro">@end(<span class="name">main parts</span>)</span>;<br/>
+
+</code>
+</div>
+
+<ul><li>
+ Und das fertige Executable erstellt
+</li></ul></div>
 
 </div>
+<h1>Ein Fake-Executable erstellen</h1>
+<div class="slides">
+<div><div>
+<h1>Ein Fake-Executable erstellen</h1>
+</div>
+
+<ul><li>
+ Die allererste Implementierung generiert nur ein statisches Executable
+</li><li>
+ Das ist noch kein Assembler
+</li><li>
+ aber ein guter Ausgangspunkt, um die Test-Umgebung aufzusetzen
+</li></ul></div>
+
 <div><div>
 <code>
 
@@ -64,19 +175,17 @@
 
 <span class="in1"></span>#<span class="var">include</span> &lt;<span class="var">fstream</span>&gt;<br/>
 
-<span class="in1"></span>#<span class="var">include</span> &lt;<span class="var">experimental</span>/<span class="var">filesystem</span>&gt;<br/>
-
-<span class="in1"></span><span class="var">namespace</span> <span class="var">fs</span> =<br/>
-
-<span class="in2"></span><span class="var">std</span>::<span class="var">experimental</span>::<span class="var">filesystem</span>;<br/>
-
 <span class="macro">@end(<span class="name">includes</span>)</span><br/>
 
 </code>
 </div>
 
+<ul><li>
+ Mit der C++ Standard-Bibliothek erstellt der Assembler das Executable
+</li><li>
+ Er bindet dazu den notwendigen Header ein
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -95,8 +204,41 @@
 </code>
 </div>
 
+<ul><li>
+ Zuerst ist sogar der Name des Executables vorgegeben
+</li><li>
+ Wie beim C-Compiler wird es <code>a.out</code> genannt
+</li><li>
+ Nach dem Schreiben des Executables müssen dessen Zugriffsrechte
+  erweitert werden
+</li><li>
+ damit das System die Datei ausführen kann
+</li></ul></div>
 
+<div><div>
+<code>
+
+<span class="macro">@add(<span class="name">includes</span>)</span><br/>
+
+<span class="in1"></span>#<span class="var">include</span> &lt;<span class="var">experimental</span>/<span class="var">filesystem</span>&gt;<br/>
+
+<span class="in1"></span><span class="var">namespace</span> <span class="var">fs</span> =<br/>
+
+<span class="in2"></span><span class="var">std</span>::<span class="var">experimental</span>::<span class="var">filesystem</span>;<br/>
+
+<span class="macro">@end(<span class="name">includes</span>)</span><br/>
+
+</code>
 </div>
+
+<ul><li>
+ Der Assembler ändert über die C++ Standard-Bibliothek die Rechte
+</li><li>
+ Leider ist dieser Teil noch als experimentell eingestuft
+</li><li>
+ Der Source-Code verwendet lange Namespace-Namen
+</li></ul></div>
+
 <div><div>
 <code>
 
@@ -115,8 +257,11 @@
 </code>
 </div>
 
+<ul><li>
+ Der Assembler fügt das Ausführungs-Recht zu den bestehenden Rechten
+  hinzu
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -133,8 +278,12 @@
 </code>
 </div>
 
+<ul><li>
+ Die Datei besteht aus einem unübersichtlichen Hex-Dump
+</li><li>
+ Der Assembler hat die Aufgabe, diese Datei dynamisch zu erzeugen
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -169,8 +318,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 1
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -205,8 +356,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 2
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -241,8 +394,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 3
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -277,8 +432,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 4
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -313,8 +470,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 5
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -349,8 +508,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 6
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -385,8 +546,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 7
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -421,8 +584,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 8
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -457,8 +622,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 9
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -493,8 +660,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 10
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -529,8 +698,10 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 11
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -551,8 +722,21 @@
 </code>
 </div>
 
+<ul><li>
+ Teil 12
+</li></ul></div>
 
 </div>
+<h1>Platzhalter</h1>
+<div class="slides">
+<div><div>
+<h1>Platzhalter</h1>
+</div>
+
+<ul><li>
+ Noch leere Implementierung, um Warnungen zu verhindern
+</li></ul></div>
+
 <div><div>
 <code>
 
@@ -563,8 +747,10 @@
 </code>
 </div>
 
+<ul><li>
+ Noch leere Implementierung, um Warnungen zu verhindern
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -575,8 +761,10 @@
 </code>
 </div>
 
+<ul><li>
+ Noch leere Implementierung, um Warnungen zu verhindern
+</li></ul></div>
 
-</div>
 <div><div>
 <code>
 
@@ -587,4 +775,7 @@
 </code>
 </div>
 
+<ul><li>
+ Noch leere Implementierung, um Warnungen zu verhindern
+</li></ul></div>
 

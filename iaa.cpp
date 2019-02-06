@@ -1,21 +1,28 @@
 
 	
+	
 	#include <fstream>
+
 	#include <experimental/filesystem>
 	namespace fs =
 		std::experimental::filesystem;
 
+
 	
+
 
 	
 	int main(
 		int argc, const char* argv[]
 	) {
 		
+	
 ;
-		
+
+	
 ;
-		 {
+
+	 {
 	const char path[] = "a.out";
 	std::ofstream out {path};
 	 {
@@ -179,5 +186,7 @@
 	);
 ;
 } ;
+;
 	}
+
 
