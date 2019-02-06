@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="de"l>
+<head>
+<meta charset="utf-8">
+<title>Instant ARM Assembly</title>
+<link rel="stylesheet" type="text/css" href="slides/slides.css"></head>
+<body>
+<h1>Instant ARM Assembly</h1>
+<div class="slides">
+<div><div>
+<h1>Instant ARM Assembly</h1>
+</div>
+
+
+</div>
+<div><div>
+<code>
+
+<span class="macro">@globdef(<span class="name">file: iaa.cpp</span>)</span><br/>
+
+<span class="in1"></span><span class="macro">@expand(<span class="name">includes</span>)</span><br/>
+
+<span class="in1"></span><span class="macro">@expand(<span class="name">globals</span>)</span><br/>
+
+<span class="in1"></span><span class="macro">@expand(<span class="name">main</span>)</span><br/>
+
+<span class="macro">@end(<span class="name">file: iaa.cpp</span>)</span><br/>
+
+</code>
+</div>
+
+
+</div>
+<div><div>
+<code>
+
+<span class="macro">@def(<span class="name">main</span>)</span><br/>
+
+<span class="in1"></span><span class="type">int</span> <span class="fn">main</span>(<br/>
+
+<span class="in2"></span><span class="type">int</span> <span class="var">argc</span>, <span class="type">const</span> <span class="type">char</span>* <span class="var">argv</span>[]<br/>
+
+<span class="in1"></span>) {<br/>
+
+<span class="in1"></span>}<br/>
+
+<span class="macro">@end(<span class="name">main</span>)</span><br/>
+
+</code>
+</div>
+
+
+</div>
+<div><div>
+<code>
+
+<span class="macro">@def(<span class="name">includes</span>)</span><br/>
+
+<span class="macro">@end(<span class="name">includes</span>)</span><br/>
+
+</code>
+</div>
+
+
+</div>
+<div><div>
+<code>
+
+<span class="macro">@def(<span class="name">globals</span>)</span><br/>
+
+<span class="macro">@end(<span class="name">globals</span>)</span><br/>
+
+</code>
+</div>
+
