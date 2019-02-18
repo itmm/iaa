@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de"l>
+<html lang="de">
 <head>
 <meta charset="utf-8">
 <title>Instant ARM Assembly</title>
@@ -10,772 +10,467 @@
 <div><div>
 <h1>Instant ARM Assembly</h1>
 </div>
-
 <ul><li>
- Ein Assembler mit benutzerfreundlicher Syntax
+Ein Assembler mit benutzerfreundlicher Syntax
 </li><li>
- Entwickelt mit <code>hex</code> in C++
-</li></ul></div>
-
+Entwickelt mit <code><span class="var">hex</span></code> in C++
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@globdef(<span class="name">file: iaa.cpp</span>)</span><br/>
-
 <span class="in1"></span><span class="macro">@expand(<span class="name">parts</span>)</span><br/>
-
 <span class="macro">@end(<span class="name">file: iaa.cpp</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Die C++ Datei besteht aus mehreren Teilen
-</li></ul></div>
-
+Die C++ Datei besteht aus mehreren Teilen
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">parts</span>)</span><br/>
-
 <span class="in1"></span><span class="macro">@expand(<span class="name">includes</span>)</span><br/>
-
 <span class="macro">@end(<span class="name">parts</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Zuerst bindet das Programm die Header ein
-</li></ul></div>
-
+Zuerst bindet das Programm die Header ein
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">parts</span>)</span><br/>
-
 <span class="in1"></span><span class="macro">@expand(<span class="name">globals</span>)</span><br/>
-
 <span class="macro">@end(<span class="name">parts</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Dann definiert es globale Elemente
-</li></ul></div>
-
+Dann definiert es globale Elemente
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">parts</span>)</span><br/>
-
 <span class="in1"></span><span class="macro">@expand(<span class="name">main</span>)</span><br/>
-
 <span class="macro">@end(<span class="name">parts</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Und zum Schluss kommt das Haupt-Programm
-</li></ul></div>
-
+Und zum Schluss kommt das Haupt-Programm
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">main</span>)</span><br/>
-
 <span class="in1"></span><span class="type">int</span> <span class="fn">main</span>(<br/>
-
 <span class="in2"></span><span class="type">int</span> <span class="var">argc</span>, <span class="type">const</span> <span class="type">char</span>* <span class="var">argv</span>[]<br/>
-
 <span class="in1"></span>) {<br/>
-
 <span class="in2"></span><span class="macro">@expand(<span class="name">main parts</span>)</span>;<br/>
-
 <span class="in1"></span>}<br/>
-
 <span class="macro">@end(<span class="name">main</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Das Hauptprogramm ist ebenfalls in mehrere Teile aufgeteilt
-</li></ul></div>
-
+Das Hauptprogramm ist ebenfalls in mehrere Teile aufgeteilt
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">main parts</span>)</span><br/>
-
 <span class="in1"></span><span class="macro">@expand(<span class="name">process args</span>)</span>;<br/>
-
 <span class="macro">@end(<span class="name">main parts</span>)</span>;<br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Zuerst werden die Argumente der Kommandozeile ausgewertet
-</li></ul></div>
-
+Zuerst werden die Argumente der Kommandozeile ausgewertet
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">main parts</span>)</span><br/>
-
 <span class="in1"></span><span class="macro">@expand(<span class="name">assemble</span>)</span>;<br/>
-
 <span class="macro">@end(<span class="name">main parts</span>)</span>;<br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Dann wird der Maschinen-Code aus den Sourcen erzeugt
-</li></ul></div>
-
+Dann wird der Maschinen-Code aus den Sourcen erzeugt
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">main parts</span>)</span><br/>
-
 <span class="in1"></span><span class="macro">@expand(<span class="name">create binary</span>)</span>;<br/>
-
 <span class="macro">@end(<span class="name">main parts</span>)</span>;<br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Und das fertige Executable erstellt
-</li></ul></div>
-
+Und das fertige Executable erstellt
+</li></ul>
+</div>
 </div>
 <h1>Ein Fake-Executable erstellen</h1>
 <div class="slides">
 <div><div>
 <h1>Ein Fake-Executable erstellen</h1>
 </div>
-
 <ul><li>
- Die allererste Implementierung generiert nur ein statisches Executable
+Die allererste Implementierung generiert nur ein statisches Executable
 </li><li>
- Das ist noch kein Assembler
+Das ist noch kein Assembler
 </li><li>
- aber ein guter Ausgangspunkt, um die Test-Umgebung aufzusetzen
-</li></ul></div>
-
+aber ein guter Ausgangspunkt, um die Test-Umgebung aufzusetzen
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">includes</span>)</span><br/>
-
 <span class="in1"></span>#<span class="var">include</span> &lt;<span class="var">fstream</span>&gt;<br/>
-
 <span class="macro">@end(<span class="name">includes</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Mit der C++ Standard-Bibliothek erstellt der Assembler das Executable
+Mit der C++ Standard-Bibliothek erstellt der Assembler das Executable
 </li><li>
- Er bindet dazu den notwendigen Header ein
-</li></ul></div>
-
+Er bindet dazu den notwendigen Header ein
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">create binary</span>)</span> {<br/>
-
 <span class="in1"></span><span class="type">const</span> <span class="type">char</span> <span class="var">path</span>[] = <span class="str">"a.out"</span>;<br/>
-
 <span class="in1"></span><span class="var">std</span>::<span class="var">ofstream</span> <span class="var">out</span> {<span class="var">path</span>};<br/>
-
 <span class="in1"></span><span class="macro">@expand(<span class="name">write binary</span>)</span>;<br/>
-
 <span class="in1"></span><span class="macro">@expand(<span class="name">set permissions</span>)</span>;<br/>
-
 } <span class="macro">@end(<span class="name">create binary</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Zuerst ist sogar der Name des Executables vorgegeben
+Zuerst ist sogar der Name des Executables vorgegeben
 </li><li>
- Wie beim C-Compiler wird es <code>a.out</code> genannt
+Wie beim C-Compiler wird es <code><span class="var">a</span>.<span class="var">out</span></code> genannt
 </li><li>
- Nach dem Schreiben des Executables müssen dessen Zugriffsrechte
+Nach dem Schreiben des Executables müssen dessen Zugriffsrechte
   erweitert werden
 </li><li>
- damit das System die Datei ausführen kann
-</li></ul></div>
-
+damit das System die Datei ausführen kann
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">includes</span>)</span><br/>
-
 <span class="in1"></span>#<span class="var">include</span> &lt;<span class="var">experimental</span>/<span class="var">filesystem</span>&gt;<br/>
-
 <span class="in1"></span><span class="var">namespace</span> <span class="var">fs</span> =<br/>
-
 <span class="in2"></span><span class="var">std</span>::<span class="var">experimental</span>::<span class="var">filesystem</span>;<br/>
-
 <span class="macro">@end(<span class="name">includes</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Der Assembler ändert über die C++ Standard-Bibliothek die Rechte
+Der Assembler ändert über die C++ Standard-Bibliothek die Rechte
 </li><li>
- Leider ist dieser Teil noch als experimentell eingestuft
+Leider ist dieser Teil noch als experimentell eingestuft
 </li><li>
- Der Source-Code verwendet lange Namespace-Namen
-</li></ul></div>
-
+Der Source-Code verwendet lange Namespace-Namen
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">set permissions</span>)</span><br/>
-
 <span class="in1"></span><span class="var">fs</span>::<span class="fn">permissions</span>(<span class="var">path</span>,<br/>
-
 <span class="in2"></span><span class="var">fs</span>::<span class="var">perms</span>::<span class="var">add_perms</span> |<br/>
-
 <span class="in3"></span><span class="var">fs</span>::<span class="var">perms</span>::<span class="var">owner_exec</span><br/>
-
 <span class="in1"></span>);<br/>
-
 <span class="macro">@end(<span class="name">set permissions</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Der Assembler fügt das Ausführungs-Recht zu den bestehenden Rechten
+Der Assembler fügt das Ausführungs-Recht zu den bestehenden Rechten
   hinzu
-</li></ul></div>
-
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">write binary</span>)</span> {<br/>
-
 <span class="in1"></span><span class="type">const</span> <span class="type">char</span> <span class="var">binary</span>[] =<br/>
-
 <span class="in2"></span><span class="macro">@expand(<span class="name">binary data</span>)</span>;<br/>
-
 <span class="in1"></span><span class="var">out</span>.<span class="fn">write</span>(<span class="var">binary</span>, <span class="fn">sizeof</span>(<span class="var">binary</span>) - <span class="num">1</span>);<br/>
-
 } <span class="macro">@end(<span class="name">write binary</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Die Datei besteht aus einem unübersichtlichen Hex-Dump
+Die Datei besteht aus einem unübersichtlichen Hex-Dump
 </li><li>
- Der Assembler hat die Aufgabe, diese Datei dynamisch zu erzeugen
-</li></ul></div>
-
+Der Assembler hat die Aufgabe, diese Datei dynamisch zu erzeugen
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x7f\x45\x4c\x46\x01\x01\x01\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x02\x00\x28\x00\x01\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x98\x00\x01\x00\x34\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x2c\x03\x00\x00\x00\x02\x00\x05"</span><br/>
-
 <span class="in1"></span><span class="str">"\x34\x00\x20\x00\x02\x00\x28\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x07\x00\x06\x00\x01\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x01\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x01\x00\xc4\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\xc4\x00\x00\x00\x05\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x01\x00\x04\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x74\x00\x00\x00\x74\x00\x01\x00"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 1
-</li></ul></div>
-
+Teil 1
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x74\x00\x01\x00\x24\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x24\x00\x00\x00\x04\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x04\x00\x00\x00\x04\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x14\x00\x00\x00\x03\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x47\x4e\x55\x00\xaf\xb3\x35\x0e"</span><br/>
-
 <span class="in1"></span><span class="str">"\xea\x09\x46\x9e\x30\xf2\x2c\x18"</span><br/>
-
 <span class="in1"></span><span class="str">"\xff\x21\xbe\x10\x02\xb9\xb7\x22"</span><br/>
-
 <span class="in1"></span><span class="str">"\x04\x70\xa0\xe3\x01\x00\xa0\xe3"</span><br/>
-
 <span class="in1"></span><span class="str">"\x10\x10\x8f\xe2\x0b\x20\xa0\xe3"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\xef\x01\x70\xa0\xe3"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\xa0\xe3\x00\x00\x00\xef"</span><br/>
-
 <span class="in1"></span><span class="str">"\x48\x61\x6c\x6c\x6f\x20\x57\x65"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 2
-</li></ul></div>
-
+Teil 2
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x6c\x74\x0a\x00\x41\x1a\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x61\x65\x61\x62\x69\x00\x01"</span><br/>
-
 <span class="in1"></span><span class="str">"\x10\x00\x00\x00\x05\x36\x00\x06"</span><br/>
-
 <span class="in1"></span><span class="str">"\x06\x08\x01\x09\x01\x0a\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x74\x00\x01\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x03\x00\x01\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x98\x00\x01\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x03\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x03\x00\x03\x00"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 3
-</li></ul></div>
-
+Teil 3
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x01\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x04\x00\xf1\xff"</span><br/>
-
 <span class="in1"></span><span class="str">"\x11\x00\x00\x00\x01\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\xf1\xff"</span><br/>
-
 <span class="in1"></span><span class="str">"\x16\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\xf1\xff"</span><br/>
-
 <span class="in1"></span><span class="str">"\x23\x00\x00\x00\x04\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\xf1\xff"</span><br/>
-
 <span class="in1"></span><span class="str">"\x29\x00\x00\x00\x01\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\xf1\xff"</span><br/>
-
 <span class="in1"></span><span class="str">"\x30\x00\x00\x00\x03\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\xf1\xff"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 4
-</li></ul></div>
-
+Teil 4
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x35\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\xf1\xff"</span><br/>
-
 <span class="in1"></span><span class="str">"\x3b\x00\x00\x00\x98\x00\x01\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x3e\x00\x00\x00\xb8\x00\x01\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x42\x00\x00\x00\x0b\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\xf1\xff"</span><br/>
-
 <span class="in1"></span><span class="str">"\x4a\x00\x00\x00\xb8\x00\x01\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x4a\x00\x00\x00\xc3\x00\x01\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x02\x00"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 5
-</li></ul></div>
-
+Teil 5
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x5c\x00\x00\x00\xc4\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x10\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x4d\x00\x00\x00\xc4\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x10\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x5b\x00\x00\x00\xc4\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x10\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x6c\x00\x00\x00\x98\x00\x01\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x10\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x67\x00\x00\x00\xc4\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x10\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x73\x00\x00\x00\xc4\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x10\x00\x02\x00"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 6
-</li></ul></div>
-
+Teil 6
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x7b\x00\x00\x00\xc4\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x10\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x82\x00\x00\x00\xc4\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x10\x00\x02\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x2f\x74\x6d\x70\x2f\x63\x63"</span><br/>
-
 <span class="in1"></span><span class="str">"\x73\x50\x4b\x65\x44\x4c\x2e\x6f"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x65\x78\x69\x74\x00\x65\x78"</span><br/>
-
 <span class="in1"></span><span class="str">"\x69\x74\x5f\x73\x75\x63\x63\x65"</span><br/>
-
 <span class="in1"></span><span class="str">"\x73\x73\x00\x77\x72\x69\x74\x65"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x73\x74\x64\x6f\x75\x74\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x72\x65\x61\x64\x00\x73\x74\x64"</span><br/>
-
 <span class="in1"></span><span class="str">"\x69\x6e\x00\x24\x61\x00\x6d\x73"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 7
-</li></ul></div>
-
+Teil 7
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x67\x00\x6d\x73\x67\x5f\x6c\x65"</span><br/>
-
 <span class="in1"></span><span class="str">"\x6e\x00\x24\x64\x00\x5f\x5f\x62"</span><br/>
-
 <span class="in1"></span><span class="str">"\x73\x73\x5f\x73\x74\x61\x72\x74"</span><br/>
-
 <span class="in1"></span><span class="str">"\x5f\x5f\x00\x5f\x5f\x62\x73\x73"</span><br/>
-
 <span class="in1"></span><span class="str">"\x5f\x65\x6e\x64\x5f\x5f\x00\x5f"</span><br/>
-
 <span class="in1"></span><span class="str">"\x5f\x62\x73\x73\x5f\x73\x74\x61"</span><br/>
-
 <span class="in1"></span><span class="str">"\x72\x74\x00\x5f\x5f\x65\x6e\x64"</span><br/>
-
 <span class="in1"></span><span class="str">"\x5f\x5f\x00\x5f\x65\x64\x61\x74"</span><br/>
-
 <span class="in1"></span><span class="str">"\x61\x00\x5f\x65\x6e\x64\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x2e\x73\x79\x6d\x74\x61\x62\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x2e\x73\x74\x72\x74\x61\x62\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x2e\x73\x68\x73\x74\x72\x74\x61"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 8
-</li></ul></div>
-
+Teil 8
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x62\x00\x2e\x6e\x6f\x74\x65\x2e"</span><br/>
-
 <span class="in1"></span><span class="str">"\x67\x6e\x75\x2e\x62\x75\x69\x6c"</span><br/>
-
 <span class="in1"></span><span class="str">"\x64\x2d\x69\x64\x00\x2e\x74\x65"</span><br/>
-
 <span class="in1"></span><span class="str">"\x78\x74\x00\x2e\x41\x52\x4d\x2e"</span><br/>
-
 <span class="in1"></span><span class="str">"\x61\x74\x74\x72\x69\x62\x75\x74"</span><br/>
-
 <span class="in1"></span><span class="str">"\x65\x73\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x1b\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x07\x00\x00\x00\x02\x00\x00\x00"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 9
-</li></ul></div>
-
+Teil 9
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x74\x00\x01\x00\x74\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x24\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x04\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x2e\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x01\x00\x00\x00\x06\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x98\x00\x01\x00\x98\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x2c\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x04\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x34\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x03\x00\x00\x70\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\xc4\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x1b\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 10
-</li></ul></div>
-
+Teil 10
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x01\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x01\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x02\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\xe0\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x80\x01\x00\x00\x05\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x10\x00\x00\x00\x04\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x10\x00\x00\x00\x09\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x03\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x60\x02\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x87\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x01\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x11\x00\x00\x00"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 11
-</li></ul></div>
-
+Teil 11
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@add(<span class="name">binary data</span>)</span><br/>
-
 <span class="in1"></span><span class="str">"\x03\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\xe7\x02\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x44\x00\x00\x00\x00\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00\x01\x00\x00\x00"</span><br/>
-
 <span class="in1"></span><span class="str">"\x00\x00\x00\x00"</span><br/>
-
 <span class="macro">@end(<span class="name">binary data</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Teil 12
-</li></ul></div>
-
+Teil 12
+</li></ul>
+</div>
 </div>
 <h1>Platzhalter</h1>
 <div class="slides">
 <div><div>
 <h1>Platzhalter</h1>
 </div>
-
 <ul><li>
- Noch leere Implementierung, um Warnungen zu verhindern
-</li></ul></div>
-
+Noch leere Implementierung, um Warnungen zu verhindern
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">globals</span>)</span><br/>
-
 <span class="macro">@end(<span class="name">globals</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Noch leere Implementierung, um Warnungen zu verhindern
-</li></ul></div>
-
+Noch leere Implementierung, um Warnungen zu verhindern
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">process args</span>)</span><br/>
-
 <span class="macro">@end(<span class="name">process args</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Noch leere Implementierung, um Warnungen zu verhindern
-</li></ul></div>
-
+Noch leere Implementierung, um Warnungen zu verhindern
+</li></ul>
+</div>
 <div><div>
 <code>
-
 <span class="macro">@def(<span class="name">assemble</span>)</span><br/>
-
 <span class="macro">@end(<span class="name">assemble</span>)</span><br/>
-
-</code>
-</div>
-
+</code></div>
 <ul><li>
- Noch leere Implementierung, um Warnungen zu verhindern
-</li></ul></div>
-
+Noch leere Implementierung, um Warnungen zu verhindern
+</li></ul>
+</div>
+</body>
+</html>
