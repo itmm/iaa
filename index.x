@@ -3,7 +3,7 @@
 * Entwickelt mit `hex` in C++
 
 ```
-D{file: iaa.cpp}
+@Def(file: iaa.cpp)
 	@put(parts)
 @end(file: iaa.cpp)
 ```
