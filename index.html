@@ -19,7 +19,7 @@ Entwickelt mit <code><span class="var">hex</span></code> in C++
 <div><div>
 <code>
 <span class="macro">@globdef(<span class="name">file: iaa.cpp</span>)</span><br/>
-<span class="in1"></span><span class="macro">@expand(<span class="name">parts</span>)</span><br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">parts</span>)</span><br/>
 <span class="macro">@end(<span class="name">file: iaa.cpp</span>)</span><br/>
 </code></div>
 <ul><li>
@@ -29,7 +29,7 @@ Die C++ Datei besteht aus mehreren Teilen
 <div><div>
 <code>
 <span class="macro">@def(<span class="name">parts</span>)</span><br/>
-<span class="in1"></span><span class="macro">@expand(<span class="name">includes</span>)</span><br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">includes</span>)</span><br/>
 <span class="macro">@end(<span class="name">parts</span>)</span><br/>
 </code></div>
 <ul><li>
@@ -39,7 +39,7 @@ Zuerst bindet das Programm die Header ein
 <div><div>
 <code>
 <span class="macro">@add(<span class="name">parts</span>)</span><br/>
-<span class="in1"></span><span class="macro">@expand(<span class="name">globals</span>)</span><br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">globals</span>)</span><br/>
 <span class="macro">@end(<span class="name">parts</span>)</span><br/>
 </code></div>
 <ul><li>
@@ -49,7 +49,7 @@ Dann definiert es globale Elemente
 <div><div>
 <code>
 <span class="macro">@add(<span class="name">parts</span>)</span><br/>
-<span class="in1"></span><span class="macro">@expand(<span class="name">main</span>)</span><br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">main</span>)</span><br/>
 <span class="macro">@end(<span class="name">parts</span>)</span><br/>
 </code></div>
 <ul><li>
@@ -62,7 +62,7 @@ Und zum Schluss kommt das Haupt-Programm
 <span class="in1"></span><span class="type">int</span> <span class="fn">main</span>(<br/>
 <span class="in2"></span><span class="type">int</span> <span class="var">argc</span>, <span class="type">const</span> <span class="type">char</span>* <span class="var">argv</span>[]<br/>
 <span class="in1"></span>) {<br/>
-<span class="in2"></span><span class="macro">@expand(<span class="name">main parts</span>)</span>;<br/>
+<span class="in2"></span><span class="macro">@put(<span class="name">main parts</span>)</span>;<br/>
 <span class="in1"></span>}<br/>
 <span class="macro">@end(<span class="name">main</span>)</span><br/>
 </code></div>
@@ -73,7 +73,7 @@ Das Hauptprogramm ist ebenfalls in mehrere Teile aufgeteilt
 <div><div>
 <code>
 <span class="macro">@def(<span class="name">main parts</span>)</span><br/>
-<span class="in1"></span><span class="macro">@expand(<span class="name">process args</span>)</span>;<br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">process args</span>)</span>;<br/>
 <span class="macro">@end(<span class="name">main parts</span>)</span>;<br/>
 </code></div>
 <ul><li>
@@ -83,7 +83,7 @@ Zuerst werden die Argumente der Kommandozeile ausgewertet
 <div><div>
 <code>
 <span class="macro">@add(<span class="name">main parts</span>)</span><br/>
-<span class="in1"></span><span class="macro">@expand(<span class="name">assemble</span>)</span>;<br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">assemble</span>)</span>;<br/>
 <span class="macro">@end(<span class="name">main parts</span>)</span>;<br/>
 </code></div>
 <ul><li>
@@ -93,7 +93,7 @@ Dann wird der Maschinen-Code aus den Sourcen erzeugt
 <div><div>
 <code>
 <span class="macro">@add(<span class="name">main parts</span>)</span><br/>
-<span class="in1"></span><span class="macro">@expand(<span class="name">create binary</span>)</span>;<br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">create binary</span>)</span>;<br/>
 <span class="macro">@end(<span class="name">main parts</span>)</span>;<br/>
 </code></div>
 <ul><li>
@@ -131,8 +131,8 @@ Er bindet dazu den notwendigen Header ein
 <span class="macro">@def(<span class="name">create binary</span>)</span> {<br/>
 <span class="in1"></span><span class="type">const</span> <span class="type">char</span> <span class="var">path</span>[] = <span class="str">"a.out"</span>;<br/>
 <span class="in1"></span><span class="var">std</span>::<span class="var">ofstream</span> <span class="var">out</span> {<span class="var">path</span>};<br/>
-<span class="in1"></span><span class="macro">@expand(<span class="name">write binary</span>)</span>;<br/>
-<span class="in1"></span><span class="macro">@expand(<span class="name">set permissions</span>)</span>;<br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">write binary</span>)</span>;<br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">set permissions</span>)</span>;<br/>
 } <span class="macro">@end(<span class="name">create binary</span>)</span><br/>
 </code></div>
 <ul><li>
@@ -180,7 +180,7 @@ Der Assembler fügt das Ausführungs-Recht zu den bestehenden Rechten
 <code>
 <span class="macro">@def(<span class="name">write binary</span>)</span> {<br/>
 <span class="in1"></span><span class="type">const</span> <span class="type">char</span> <span class="var">binary</span>[] =<br/>
-<span class="in2"></span><span class="macro">@expand(<span class="name">binary data</span>)</span>;<br/>
+<span class="in2"></span><span class="macro">@put(<span class="name">binary data</span>)</span>;<br/>
 <span class="in1"></span><span class="var">out</span>.<span class="fn">write</span>(<span class="var">binary</span>, <span class="fn">sizeof</span>(<span class="var">binary</span>) - <span class="num">1</span>);<br/>
 } <span class="macro">@end(<span class="name">write binary</span>)</span><br/>
 </code></div>

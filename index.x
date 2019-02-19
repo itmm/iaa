@@ -4,61 +4,61 @@
 
 ```
 D{file: iaa.cpp}
-	e{parts}
-x{file: iaa.cpp}
+	@put(parts)
+@end(file: iaa.cpp)
 ```
 * Die C++ Datei besteht aus mehreren Teilen
 
 ```
-d{parts}
-	e{includes}
-x{parts}
+@def(parts)
+	@put(includes)
+@end(parts)
 ```
 * Zuerst bindet das Programm die Header ein
 
 ```
-a{parts}
-	e{globals}
-x{parts}
+@add(parts)
+	@put(globals)
+@end(parts)
 ```
 * Dann definiert es globale Elemente
 
 ```
-a{parts}
-	e{main}
-x{parts}
+@add(parts)
+	@put(main)
+@end(parts)
 ```
 * Und zum Schluss kommt das Haupt-Programm
 
 ```
-d{main}
+@def(main)
 	int main(
 		int argc, const char* argv[]
 	) {
-		e{main parts};
+		@put(main parts);
 	}
-x{main}
+@end(main)
 ```
 * Das Hauptprogramm ist ebenfalls in mehrere Teile aufgeteilt
 
 ```
-d{main parts}
-	e{process args};
-x{main parts};
+@def(main parts)
+	@put(process args);
+@end(main parts);
 ```
 * Zuerst werden die Argumente der Kommandozeile ausgewertet
 
 ```
-a{main parts}
-	e{assemble};
-x{main parts};
+@add(main parts)
+	@put(assemble);
+@end(main parts);
 ```
 * Dann wird der Maschinen-Code aus den Sourcen erzeugt
 
 ```
-a{main parts}
-	e{create binary};
-x{main parts};
+@add(main parts)
+	@put(create binary);
+@end(main parts);
 ```
 * Und das fertige Executable erstellt
 
@@ -68,20 +68,20 @@ x{main parts};
 * aber ein guter Ausgangspunkt, um die Test-Umgebung aufzusetzen
 
 ```
-d{includes}
+@def(includes)
 	#include <fstream>
-x{includes}
+@end(includes)
 ```
 * Mit der C++ Standard-Bibliothek erstellt der Assembler das Executable
 * Er bindet dazu den notwendigen Header ein
 
 ```
-d{create binary} {
+@def(create binary) {
 	const char path[] = "a.out";
 	std::ofstream out {path};
-	e{write binary};
-	e{set permissions};
-} x{create binary}
+	@put(write binary);
+	@put(set permissions);
+} @end(create binary)
 ```
 * Zuerst ist sogar der Name des Executables vorgegeben
 * Wie beim C-Compiler wird es `a.out` genannt
@@ -90,39 +90,39 @@ d{create binary} {
 * damit das System die Datei ausführen kann
 
 ```
-a{includes}
+@add(includes)
 	#include <experimental/filesystem>
 	namespace fs =
 		std::experimental::filesystem;
-x{includes}
+@end(includes)
 ```
 * Der Assembler ändert über die C++ Standard-Bibliothek die Rechte
 * Leider ist dieser Teil noch als experimentell eingestuft
 * Der Source-Code verwendet lange Namespace-Namen
 
 ```
-d{set permissions}
+@def(set permissions)
 	fs::permissions(path,
 		fs::perms::add_perms |
 			fs::perms::owner_exec
 	);
-x{set permissions}
+@end(set permissions)
 ```
 * Der Assembler fügt das Ausführungs-Recht zu den bestehenden Rechten
   hinzu
 
 ```
-d{write binary} {
+@def(write binary) {
 	const char binary[] =
-		e{binary data};
+		@put(binary data);
 	out.write(binary, sizeof(binary) - 1);
-} x{write binary}
+} @end(write binary)
 ```
 * Die Datei besteht aus einem unübersichtlichen Hex-Dump
 * Der Assembler hat die Aufgabe, diese Datei dynamisch zu erzeugen
 
 ```
-d{binary data}
+@def(binary data)
 	"\x7f\x45\x4c\x46\x01\x01\x01\x00"
 	"\x00\x00\x00\x00\x00\x00\x00\x00"
 	"\x02\x00\x28\x00\x01\x00\x00\x00"
@@ -135,12 +135,12 @@ d{binary data}
 	"\xc4\x00\x00\x00\x05\x00\x00\x00"
 	"\x00\x00\x01\x00\x04\x00\x00\x00"
 	"\x74\x00\x00\x00\x74\x00\x01\x00"
-x{binary data}
+@end(binary data)
 ```
 * Teil 1
 
 ```
-a{binary data}
+@add(binary data)
 	"\x74\x00\x01\x00\x24\x00\x00\x00"
 	"\x24\x00\x00\x00\x04\x00\x00\x00"
 	"\x04\x00\x00\x00\x04\x00\x00\x00"
@@ -153,12 +153,12 @@ a{binary data}
 	"\x00\x00\x00\xef\x01\x70\xa0\xe3"
 	"\x00\x00\xa0\xe3\x00\x00\x00\xef"
 	"\x48\x61\x6c\x6c\x6f\x20\x57\x65"
-x{binary data}
+@end(binary data)
 ```
 * Teil 2
 
 ```
-a{binary data}
+@add(binary data)
 	"\x6c\x74\x0a\x00\x41\x1a\x00\x00"
 	"\x00\x61\x65\x61\x62\x69\x00\x01"
 	"\x10\x00\x00\x00\x05\x36\x00\x06"
@@ -171,12 +171,12 @@ a{binary data}
 	"\x00\x00\x00\x00\x03\x00\x02\x00"
 	"\x00\x00\x00\x00\x00\x00\x00\x00"
 	"\x00\x00\x00\x00\x03\x00\x03\x00"
-x{binary data}
+@end(binary data)
 ```
 * Teil 3
 
 ```
-a{binary data}
+@add(binary data)
 	"\x01\x00\x00\x00\x00\x00\x00\x00"
 	"\x00\x00\x00\x00\x04\x00\xf1\xff"
 	"\x11\x00\x00\x00\x01\x00\x00\x00"
@@ -189,12 +189,12 @@ a{binary data}
 	"\x00\x00\x00\x00\x00\x00\xf1\xff"
 	"\x30\x00\x00\x00\x03\x00\x00\x00"
 	"\x00\x00\x00\x00\x00\x00\xf1\xff"
-x{binary data}
+@end(binary data)
 ```
 * Teil 4
 
 ```
-a{binary data}
+@add(binary data)
 	"\x35\x00\x00\x00\x00\x00\x00\x00"
 	"\x00\x00\x00\x00\x00\x00\xf1\xff"
 	"\x3b\x00\x00\x00\x98\x00\x01\x00"
@@ -207,12 +207,12 @@ a{binary data}
 	"\x00\x00\x00\x00\x00\x00\x02\x00"
 	"\x4a\x00\x00\x00\xc3\x00\x01\x00"
 	"\x00\x00\x00\x00\x00\x00\x02\x00"
-x{binary data}
+@end(binary data)
 ```
 * Teil 5
 
 ```
-a{binary data}
+@add(binary data)
 	"\x5c\x00\x00\x00\xc4\x00\x02\x00"
 	"\x00\x00\x00\x00\x10\x00\x02\x00"
 	"\x4d\x00\x00\x00\xc4\x00\x02\x00"
@@ -225,12 +225,12 @@ a{binary data}
 	"\x00\x00\x00\x00\x10\x00\x02\x00"
 	"\x73\x00\x00\x00\xc4\x00\x02\x00"
 	"\x00\x00\x00\x00\x10\x00\x02\x00"
-x{binary data}
+@end(binary data)
 ```
 * Teil 6
 
 ```
-a{binary data}
+@add(binary data)
 	"\x7b\x00\x00\x00\xc4\x00\x02\x00"
 	"\x00\x00\x00\x00\x10\x00\x02\x00"
 	"\x82\x00\x00\x00\xc4\x00\x02\x00"
@@ -243,12 +243,12 @@ a{binary data}
 	"\x00\x73\x74\x64\x6f\x75\x74\x00"
 	"\x72\x65\x61\x64\x00\x73\x74\x64"
 	"\x69\x6e\x00\x24\x61\x00\x6d\x73"
-x{binary data}
+@end(binary data)
 ```
 * Teil 7
 
 ```
-a{binary data}
+@add(binary data)
 	"\x67\x00\x6d\x73\x67\x5f\x6c\x65"
 	"\x6e\x00\x24\x64\x00\x5f\x5f\x62"
 	"\x73\x73\x5f\x73\x74\x61\x72\x74"
@@ -261,12 +261,12 @@ a{binary data}
 	"\x2e\x73\x79\x6d\x74\x61\x62\x00"
 	"\x2e\x73\x74\x72\x74\x61\x62\x00"
 	"\x2e\x73\x68\x73\x74\x72\x74\x61"
-x{binary data}
+@end(binary data)
 ```
 * Teil 8
 
 ```
-a{binary data}
+@add(binary data)
 	"\x62\x00\x2e\x6e\x6f\x74\x65\x2e"
 	"\x67\x6e\x75\x2e\x62\x75\x69\x6c"
 	"\x64\x2d\x69\x64\x00\x2e\x74\x65"
@@ -279,12 +279,12 @@ a{binary data}
 	"\x00\x00\x00\x00\x00\x00\x00\x00"
 	"\x00\x00\x00\x00\x1b\x00\x00\x00"
 	"\x07\x00\x00\x00\x02\x00\x00\x00"
-x{binary data}
+@end(binary data)
 ```
 * Teil 9
 
 ```
-a{binary data}
+@add(binary data)
 	"\x74\x00\x01\x00\x74\x00\x00\x00"
 	"\x24\x00\x00\x00\x00\x00\x00\x00"
 	"\x00\x00\x00\x00\x04\x00\x00\x00"
@@ -297,12 +297,12 @@ a{binary data}
 	"\x03\x00\x00\x70\x00\x00\x00\x00"
 	"\x00\x00\x00\x00\xc4\x00\x00\x00"
 	"\x1b\x00\x00\x00\x00\x00\x00\x00"
-x{binary data}
+@end(binary data)
 ```
 * Teil 10
 
 ```
-a{binary data}
+@add(binary data)
 	"\x00\x00\x00\x00\x01\x00\x00\x00"
 	"\x00\x00\x00\x00\x01\x00\x00\x00"
 	"\x02\x00\x00\x00\x00\x00\x00\x00"
@@ -315,18 +315,18 @@ a{binary data}
 	"\x87\x00\x00\x00\x00\x00\x00\x00"
 	"\x00\x00\x00\x00\x01\x00\x00\x00"
 	"\x00\x00\x00\x00\x11\x00\x00\x00"
-x{binary data}
+@end(binary data)
 ```
 * Teil 11
 
 ```
-a{binary data}
+@add(binary data)
 	"\x03\x00\x00\x00\x00\x00\x00\x00"
 	"\x00\x00\x00\x00\xe7\x02\x00\x00"
 	"\x44\x00\x00\x00\x00\x00\x00\x00"
 	"\x00\x00\x00\x00\x01\x00\x00\x00"
 	"\x00\x00\x00\x00"
-x{binary data}
+@end(binary data)
 ```
 * Teil 12
 
@@ -334,20 +334,20 @@ x{binary data}
 * Noch leere Implementierung, um Warnungen zu verhindern
 
 ```
-d{globals}
-x{globals}
+@def(globals)
+@end(globals)
 ```
 * Noch leere Implementierung, um Warnungen zu verhindern
 
 ```
-d{process args}
-x{process args}
+@def(process args)
+@end(process args)
 ```
 * Noch leere Implementierung, um Warnungen zu verhindern
 
 ```
-d{assemble}
-x{assemble}
+@def(assemble)
+@end(assemble)
 ```
 * Noch leere Implementierung, um Warnungen zu verhindern
 
